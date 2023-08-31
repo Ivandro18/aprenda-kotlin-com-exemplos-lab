@@ -1,21 +1,52 @@
-// [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
-
 enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
 
-class Usuario
+data class Usuario (val matricula: Int, var nome: String)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(val nome: String, val duracao: Int = 60, val nivel: Nivel)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
-
+data class Formacao(val nome: String) {
+	
+    var conteudos = mutableListOf<ConteudoEducacional>()
+    
     val inscritos = mutableListOf<Usuario>()
     
     fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+        inscritos.add(usuario)
+    }
+    fun listarUsuarios (){
+        println("Curso de $nome")
+        println("Lista de alunos")
+        for (x in inscritos) println("Matricula: ${x.matricula},  Nome: ${x.nome}")
+    }
+    
+    fun addConteudo (conteudo: ConteudoEducacional){
+        conteudos.add(conteudo)
+    }
+    
+    fun listarConteudos(){
+        println("Curso de $nome")
+        println("Conteudo do curso")
+    	for (x in conteudos) println("Nome: ${x.nome},  Duração: ${x.duracao},  Nivel: ${x.nivel}")
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+    val formacao1 = Formacao("Front")
+    
+    val novoConteudo = ConteudoEducacional("Matematica financeira", 30, Nivel.BASICO)
+    formacao1.addConteudo(novoConteudo)    
+    
+    val novoConteudo2 = ConteudoEducacional("Programação 3", 20, Nivel.INTERMEDIARIO)
+    formacao1.addConteudo(novoConteudo2)   
+    
+    formacao1.listarConteudos()
+    println()
+    
+    val aluno1 = Usuario(1, "ivandro")
+    formacao1.matricular(aluno1)
+    
+    val aluno2 = Usuario(2, "Breno")
+    formacao1.matricular(aluno2)
+    
+    formacao1.listarUsuarios()
 }
